@@ -6,7 +6,9 @@ const input = $("#input");
 const form = $("#chatForm");
 const sendBtn = $("#sendBtn");
 
-const API_URL = window.SPMB_CONFIG?.API_URL || "";
+const API_URL = (window.SPMB_CONFIG && window.SPMB_CONFIG.API_URL)
+  ? window.SPMB_CONFIG.API_URL
+  : "https://spmb-gemini-api.dkvkonsentrasi.workers.dev";
 let history = [];
 
 function escapeHtml(text) {
@@ -49,7 +51,7 @@ function buildKnowledgeContext() {
 
 async function askGemini(question) {
   if (!API_URL || API_URL.includes("PASTE_CLOUDFLARE")) {
-    throw new Error("API_URL belum diatur di config.js");
+    throw new Error("API_URL belum diatur.");
   }
 
   const payload = {

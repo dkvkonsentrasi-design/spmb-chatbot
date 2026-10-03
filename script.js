@@ -48,7 +48,7 @@ function setLoading(loading) {
 
 function buildKnowledgeContext() {
   return SPMB_KNOWLEDGE.map(item => {
-    return `TOPIK: ${item.title}\nKATA KUNCI: ${item.keywords.join(", ")}\nINFORMASI: ${item.answer}`;
+    return `TOPIK: ${item.title}\nKATA KUNCI: ${item.keywords.join(", ")}\nINFORMASI: ${item.content}`;
   }).join("\n\n---\n\n");
 }
 

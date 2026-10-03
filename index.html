@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Chatbot informasi SPMB - gratis tanpa API">
+  <title>SPMB Assistant</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">S</div>
+        <div>
+          <strong>SPMB Assistant</strong>
+          <span>Informasi penerimaan murid</span>
+        </div>
+      </div>
+
+      <button class="new-chat" id="newChatBtn">
+        <span>＋</span> Percakapan baru
+      </button>
+
+      <div class="sidebar-section">
+        <div class="section-title">Topik cepat</div>
+        <button class="topic-btn" data-question="Apa saja syarat pendaftaran SPMB?">Syarat pendaftaran</button>
+        <button class="topic-btn" data-question="Bagaimana alur pendaftaran SPMB?">Alur pendaftaran</button>
+        <button class="topic-btn" data-question="Apa saja jalur penerimaan?">Jalur penerimaan</button>
+        <button class="topic-btn" data-question="Kapan jadwal pendaftaran?">Jadwal</button>
+        <button class="topic-btn" data-question="Berapa kuota penerimaan?">Kuota</button>
+      </div>
+
+      <div class="sidebar-note">
+        <span class="dot"></span>
+        Gratis • Tanpa API • Bisa GitHub Pages
+      </div>
+    </aside>
+
+    <main class="chat">
+      <header class="chat-header">
+        <div class="mobile-brand">
+          <div class="brand-mark">S</div>
+          <div>
+            <strong>SPMB Assistant</strong>
+            <span>Online</span>
+          </div>
+        </div>
+        <button class="icon-btn" id="clearBtn" title="Hapus percakapan">⌫</button>
+      </header>
+
+      <section class="messages" id="messages" aria-live="polite">
+        <div class="welcome">
+          <div class="welcome-icon">S</div>
+          <h1>Ada yang ingin ditanyakan tentang SPMB?</h1>
+          <p>Tulis pertanyaan dengan bahasa biasa. Sistem akan mencari informasi yang paling relevan dari basis pengetahuan SPMB.</p>
+          <div class="suggestions">
+            <button data-question="Saya mau daftar SPMB, harus mulai dari mana?">Saya mau daftar, mulai dari mana?</button>
+            <button data-question="Dokumen apa yang perlu disiapkan untuk mendaftar?">Dokumen apa yang perlu disiapkan?</button>
+            <button data-question="Kalau saya ingin tahu jadwal lengkapnya bagaimana?">Jadwal lengkapnya bagaimana?</button>
+            <button data-question="Bagaimana cara melihat hasil seleksi?">Bagaimana melihat hasil seleksi?</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="composer-wrap">
+        <form class="composer" id="chatForm">
+          <textarea id="input" rows="1" placeholder="Tanyakan sesuatu tentang SPMB..." autocomplete="off"></textarea>
+          <button type="submit" id="sendBtn" aria-label="Kirim">↑</button>
+        </form>
+        <div class="disclaimer">SPMB Assistant menggunakan basis pengetahuan lokal. Periksa pengumuman resmi untuk informasi terbaru.</div>
+      </div>
+    </main>
+  </div>
+  <script src="knowledge.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -6,9 +6,12 @@ const input = $("#input");
 const form = $("#chatForm");
 const sendBtn = $("#sendBtn");
 
-const API_URL = (window.SPMB_CONFIG && window.SPMB_CONFIG.API_URL)
-  ? window.SPMB_CONFIG.API_URL
-  : "https://spmb-gemini-api.dkvkonsentrasi.workers.dev";
+// Baca konfigurasi saat request dibuat. Jika config.js gagal dimuat,
+// gunakan URL Worker yang sudah diketahui sebagai fallback.
+const DEFAULT_API_URL = "https://spmb-gemini-api.dkvkonsentrasi.workers.dev";
+function getApiUrl() {
+  return (window.SPMB_CONFIG?.API_URL || DEFAULT_API_URL).replace(/\/$/, "");
+}
 let history = [];
 
 function escapeHtml(text) {
@@ -50,8 +53,9 @@ function buildKnowledgeContext() {
 }
 
 async function askGemini(question) {
-  if (!API_URL || API_URL.includes("PASTE_CLOUDFLARE")) {
-    throw new Error("API_URL belum diatur.");
+  const apiUrl = getApiUrl();
+  if (!apiUrl || apiUrl.includes("PASTE_CLOUDFLARE")) {
+    throw new Error("URL Cloudflare Worker belum tersedia.");
   }
 
   const payload = {
@@ -60,7 +64,7 @@ async function askGemini(question) {
     knowledge: buildKnowledgeContext()
   };
 
-  const response = await fetch(API_URL.replace(/\/$/, "") + "/chat", {
+  const response = await fetch(apiUrl + "/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
@@ -104,7 +108,7 @@ async function sendMessage(text = input.value.trim()) {
       fallback = localFallback(text);
     } catch (_) {}
     loadingBubble.innerHTML = renderMarkdownLite(
-      fallback + "\n\n_(AI belum tersambung. Periksa `config.js` dan URL Cloudflare Worker.)_"
+      fallback + "\n\n_(AI belum tersambung: " + err.message + ")_"
     );
   } finally {
     setLoading(false);
@@ -124,8 +128,8 @@ input?.addEventListener("keydown", (e) => {
   }
 });
 
-$$("[data-prompt]").forEach(btn => {
-  btn.addEventListener("click", () => sendMessage(btn.dataset.prompt));
+$$(["[data-prompt]", "[data-question]"].join(",")).forEach(btn => {
+  btn.addEventListener("click", () => sendMessage(btn.dataset.prompt || btn.dataset.question));
 });
 
 addMessage(
